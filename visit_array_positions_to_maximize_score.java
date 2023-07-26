@@ -1,51 +1,52 @@
 class Solution {
+    private Long[][] dp;
     public long maxScore(int[] nums, int x) {
-        int n = nums.length;
-        // long[][] dp = new long[n+1][n+1];
-        // for(long[] row : dp){
-        //     Arrays.fill(row, -1);
-        // }
-        // long score = nums[0] + fun(1, 0, nums, n, x, dp);
-        // return score;
-        
-//         long[][] dp = new long[n+1][n+1];
-//         for(int ind = n - 1; ind >= 1; ind--){
-//             for(int prevInd = ind - 1; prevInd >= 0; prevInd--){
-//                 long notTake = dp[ind + 1][prevInd];
-        
-//                 long take = 0;
-//                 if(nums[prevInd] % 2 == nums[ind] % 2){
-//                     take = nums[ind] + dp[ind + 1][ind];
-//                 }
-//                 else{
-//                     take = take = nums[ind] - x + dp[ind + 1][ind];
-//                 }
+        //Time complexity: O(n∗2)(Recursion)
+        //Space complexity: O(n∗2)(DP) + O(n)(Stack)  
+        // int n = nums.length;
+        // dp = new Long[n][2];
+        // return nums[0] + solve(1, isOdd(nums[0]), n, x, nums);
 
-//                 dp[ind][prevInd] = Math.max(notTake, take);
-//                 System.out.println(Math.max(notTake, take));
-//             }
-//         }
+        //tabularization ->
+        //O(N * 2)
+        //S(N)
+        // dp = new Long[n+1][2];
+        // dp[n][0] =(long) 0;
+        // dp[n][1] = (long)0;
+        // for (int idx = n - 1; idx >= 0; idx--) {
+        //     boolean curParity = isOdd(nums[idx]);
+        //     for (int prevParity = 0; prevParity <= 1; prevParity++) {
+        //         long notPick = dp[idx + 1][prevParity];
+        //         long pick = nums[idx] + dp[idx + 1][curParity ? 1 : 0] - ((curParity ? 1 : 0) == prevParity ? 0 : x);
+        //         dp[idx][prevParity] = Math.max(pick, notPick);
+        //     }
+        // }
         
-//         return nums[0] + dp[1][0];
-        
-        //do space optimization ->
+        // return nums[0] + dp[1][isOdd(nums[0]) ? 1 : 0];
+
+        //space optimization ->
+        //O(N)
+        //S(1)
+        long dp[] = new long[] { -x, -x}, n = nums.length;
+        dp[nums[0] & 1] = nums[0];
+        for (int i = 1; i < n; i++)
+            dp[nums[i] & 1] = Math.max(dp[nums[i] & 1], dp[nums[i] & 1 ^ 1] - x) + nums[i];
+        return Math.max(dp[0], dp[1]);
     }
     
-    long fun(int ind, int prevInd, int[] nums, int n, int x, long[][] dp){
-        if(ind == n) return 0;
-        if(dp[ind][prevInd] != -1) return dp[ind][prevInd];
-        
-        long notTake = fun(ind + 1, prevInd, nums, n, x, dp);
-        
-        long take = 0;
-        if(nums[prevInd] % 2 == nums[ind] % 2){
-            take = nums[ind] + fun(ind + 1, ind, nums, n, x, dp);
-        }
-        else{
-            take = take = nums[ind] - x + fun(ind + 1, ind, nums, n, x, dp);
-        }
-        
-        return dp[ind][prevInd] = Math.max(notTake, take);
+    private long solve(int idx, boolean prevParity, int n, int x, int[] nums) {
+        if(idx == n) return 0;
+        if(dp[idx][prevParity ? 1 : 0] != null) return dp[idx][prevParity ? 1 : 0];
+        long notPick = solve(idx + 1, prevParity, n, x, nums);
+        boolean curParity = isOdd(nums[idx]);
+        long pick = nums[idx] + solve(idx + 1, curParity, n, x, nums) - (curParity == prevParity ? 0 : x);
+        return dp[idx][prevParity ? 1 : 0] = Math.max(pick, notPick);
     }
     
+    private boolean isOdd(int n) {
+        return (n & 1) == 1;
+    }
 }
+
+
+       
