@@ -1,22 +1,33 @@
+
 class Solution {
     public static long maximum_energy(int n, int[] heights) {
         // code here
         //O(N)
         //S(N)
-        int[] dp = new int[n];
-        dp[n-1] = heights[n-1];
-        int maxi = dp[n-1];
-        for(int i = n -  2; i >= 0; i--){
-            int j = i + 1;
-            while(j < n && heights[i] > heights[j]){
-                j++;
+        Stack<Integer> s = new Stack<>();
+        int[] nextGreaterElement = new int[n];
+        Arrays.fill(nextGreaterElement, -1);
+
+        for (int i = 0; i < n; i++) {
+            while (!s.isEmpty() && heights[s.peek()] < heights[i]) {
+                nextGreaterElement[s.pop()] = i;
             }
-            if(j == n) dp[i] = heights[i];
-            else dp[i] = heights[i] ^ dp[j];
-            
-            maxi = Math.max(maxi, dp[i]);
+            s.push(i);
         }
-        return maxi;
+
+        long[] dp = new long[n];
+        long ans = 0;
+
+        for (int i = n - 1; i >= 0; i--) {
+            if (nextGreaterElement[i] == -1) {
+                dp[i] = heights[i];
+            } else {
+                long temp = heights[i];
+                dp[i] = temp ^ dp[nextGreaterElement[i]];
+            }
+            ans = Math.max(ans, dp[i]);
+        }
+
+        return ans;
     }
 }
-        
