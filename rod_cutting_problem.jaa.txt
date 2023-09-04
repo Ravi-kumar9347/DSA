@@ -1,0 +1,18 @@
+public class Solution {
+	public static int cutRod(int price[], int n) {
+		//O(N*N)
+		//S(N)
+		int[] prev = new int[n+1];
+		for(int i = n; i > 0; i--){
+			int[] cur = new int[n+1];
+			for(int j = n; j >= 0; j--){
+				int notTake = prev[j];
+				int take = 0;
+				if(i + j <= n) take = price[i-1] + cur[i+j];
+				cur[j] = Math.max(notTake, take);
+			}
+			prev = cur;
+		}
+		return prev[0];
+	}
+}
