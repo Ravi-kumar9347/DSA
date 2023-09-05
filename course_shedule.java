@@ -12,44 +12,14 @@ class Solution {
             graph[prereq[0]].add(prereq[1]);
         }
         
-        // // Perform DFS
-        // for (int i = 0; i < numCourses; i++) {
-        //     if (visited[i] == 0 && !dfs(i, graph, visited)) {
-        //         return false;
-        //     }
-        // }
+        // Perform DFS
+        for (int i = 0; i < numCourses; i++) {
+            if (visited[i] == 0 && !dfs(i, graph, visited)) {
+                return false;
+            }
+        }
         
-        // return true;
-
-        // using topological sort ->
-        int indegree[] = new int[numCourses];
-        for(int i = 0; i < numCourses; i++){
-            for(int it : graph[i]){
-                indegree[it]++;
-            }
-        }
-        Queue<Integer> q = new LinkedList<>();
-        for(int i = 0; i < numCourses; i++){
-            if(indegree[i] == 0){
-                q.add(i);
-            }
-        }
-        List<Integer> topoSort = new ArrayList<>();
-        while(!q.isEmpty()){
-            int node = q.peek();
-            q.remove();
-            topoSort.add(node);
-
-            for(int it : graph[node]){
-                indegree[it]--;
-                if(indegree[it] == 0){
-                    q.add(it);
-                }
-            }
-        }
-
-        if(topoSort.size() == numCourses) return true;
-        return false;
+        return true;
     }
     
     private boolean dfs(int course, List<Integer>[] graph, int[] visited) {

@@ -1,15 +1,23 @@
 class Solution {
     public boolean isGood(int[] nums) {
         int n = nums.length;
-        int[] base = new int[n];
-        for (int i = 0; i < n - 1; i++) {
-            base[i] = i + 1;
+        Set<Integer> set = new HashSet<>();
+        
+        for(int i = 1; i < n; i++){
+            set.add(i);
         }
-        base[n - 1] = n - 1;
-
-        Arrays.sort(nums);
-        Arrays.sort(base);
-
-        return Arrays.equals(nums, base);
+        
+        int size = 0;
+        int lastNum = 0;
+        for(int i = 0; i < n; i++){
+            if(set.contains(nums[i])){
+                size++;
+                if(nums[i] == n - 1){
+                    lastNum++;
+                }
+            }
+        }
+        
+        return (size == n && lastNum == 2) ? true : false;
     }
 }
