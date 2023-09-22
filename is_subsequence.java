@@ -1,15 +1,20 @@
 class Solution {
     public boolean isSubsequence(String s, String t) {
-        //O(N) S(1)
-        int slength = s.length(), tlength = t.length();
-        int spointer = 0, tpointer = 0;
-        while(tpointer < tlength && spointer < slength){
-            if(s.charAt(spointer) == t.charAt(tpointer)){
-                spointer++;
+        //O(N)
+        //S(1)
+        int n = s.length();
+        int m = t.length();
+        if(n > m) return false;
+
+        int i = 0, j = 0;
+        while(i < n && j < m){
+            if(s.charAt(i) == t.charAt(j)){
+                i++;   
             }
-            tpointer++;
+            j++;
         }
-        
-        return spointer == slength ? true : false;
+
+        if(i == n) return true;
+        return false;
     }
 }
