@@ -1,0 +1,77 @@
+class MyHashMap {
+    //O(1)
+    //S(1e6)
+    int[] arr;
+    public MyHashMap() {
+        arr  = new int[1000001];
+        Arrays.fill(arr, -1);
+    }
+    
+    public void put(int key, int value) {
+        arr[key] = value;
+    }
+    
+    public int get(int key) {
+        return arr[key];
+    }
+    
+    public void remove(int key) {
+        arr[key] = -1;
+    }
+}
+
+/**
+ * Your MyHashMap object will be instantiated and called as such:
+ * MyHashMap obj = new MyHashMap();
+ * obj.put(key,value);
+ * int param_2 = obj.get(key);
+ * obj.remove(key);
+ */
+
+// class MyHashMap {
+
+//     private static final int SIZE = 1000;
+//     private List<int[]>[] map;
+
+//     public MyHashMap() {
+//         map = new ArrayList[SIZE];
+//         for (int i = 0; i < SIZE; i++) {
+//             map[i] = new ArrayList<>();
+//         }
+//     }
+
+//     public void put(int key, int value) {
+//         int index = key % SIZE;
+//         List<int[]> bucket = map[index];
+//         for (int[] pair : bucket) {
+//             if (pair[0] == key) {
+//                 pair[1] = value; 
+//                 return;
+//             }
+//         }
+//         bucket.add(new int[]{key, value}); 
+//     }
+
+//     public int get(int key) {
+//         int index = key % SIZE;
+//         List<int[]> bucket = map[index];
+//         for (int[] pair : bucket) {
+//             if (pair[0] == key) {
+//                 return pair[1]; 
+//             }
+//         }
+//         return -1; 
+//     }
+
+//     public void remove(int key) {
+//         int index = key % SIZE;
+//         List<int[]> bucket = map[index];
+//         for (int i = 0; i < bucket.size(); i++) {
+//             int[] pair = bucket.get(i);
+//             if (pair[0] == key) {
+//                 bucket.remove(i); 
+//                 return;
+//             }
+//         }
+//     }
+// }
