@@ -4,6 +4,11 @@ class Solution {
         //O(logN)
         //S(1)
         while(low <= high){
+            if (nums[low] <= nums[high]) {
+                minValue = Math.min(minValue, nums[low]);
+                break;
+            }
+            
             int mid = (low + high) / 2;
             if(nums[low] <= nums[mid]){
                 minValue = Math.min(minValue, nums[low]);
